@@ -1,5 +1,11 @@
-import { Link, Navigate, useParams } from "react-router-dom";
-import { getTopic, lessonUrl } from "../topics";
+import { Navigate, useParams } from "react-router-dom";
+import { accentVar, getTopic, lessonUrl } from "../topics";
+
+const sections = [
+  { key: "what" as const, label: "What it is" },
+  { key: "when" as const, label: "When to use it" },
+  { key: "demo" as const, label: "What the demo shows" },
+];
 
 export const TopicPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -8,50 +14,61 @@ export const TopicPage = () => {
   if (!topic) return <Navigate to="/" replace />;
 
   const href = lessonUrl(topic);
+  const accent = accentVar[topic.accent];
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
-      <Link
-        to="/"
-        className="text-sm font-medium text-slate-500 hover:text-slate-800"
-      >
-        ← All topics
-      </Link>
+    <main className="animate-content mx-auto max-w-2xl px-6 pb-24 pt-12 sm:pt-16">
+      <div
+        className="mb-8 h-1.5 w-16 rounded-sm"
+        style={{ backgroundColor: accent }}
+        aria-hidden
+      />
 
-      <h1 className="mt-8 text-4xl font-semibold tracking-tight text-slate-900">
+      <p
+        className="text-xs font-semibold tracking-[0.18em] uppercase"
+        style={{ color: accent }}
+      >
+        Concept
+      </p>
+
+      <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight text-[var(--ink)] sm:text-5xl">
         {topic.title}
       </h1>
-      <p className="mt-3 text-lg text-slate-600">{topic.summary}</p>
+      <p className="mt-4 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
+        {topic.summary}
+      </p>
 
-      <section className="mt-12 space-y-8">
-        <div>
-          <h2 className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-            What it is
-          </h2>
-          <p className="mt-2 text-slate-800 leading-relaxed">{topic.what}</p>
-        </div>
-        <div>
-          <h2 className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-            When to use it
-          </h2>
-          <p className="mt-2 text-slate-800 leading-relaxed">{topic.when}</p>
-        </div>
-        <div>
-          <h2 className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-            What the demo shows
-          </h2>
-          <p className="mt-2 text-slate-800 leading-relaxed">{topic.demo}</p>
-        </div>
-      </section>
+      <div className="mt-14 space-y-12 border-t border-[var(--line)] pt-12">
+        {sections.map((section) => (
+          <section key={section.key}>
+            <h2
+              className="text-xs font-semibold tracking-[0.16em] uppercase"
+              style={{ color: accent }}
+            >
+              {section.label}
+            </h2>
+            <p className="mt-3 text-base leading-[1.75] text-[var(--ink-soft)] sm:text-lg">
+              {topic[section.key]}
+            </p>
+          </section>
+        ))}
+      </div>
 
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        className="mt-12 inline-flex items-center justify-center bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-700"
-      >
-        Open lesson
-      </a>
+      <div className="mt-14 flex flex-col gap-4 border-t border-[var(--line)] pt-10 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-[var(--muted)]">
+          Opens the focused demo for this concept.
+        </p>
+        <a
+          href={href}
+          className="cta-lesson inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-white"
+          style={{ backgroundColor: accent }}
+        >
+          Open lesson
+          <span aria-hidden className="ml-2">
+            →
+          </span>
+        </a>
+      </div>
     </main>
   );
 };
