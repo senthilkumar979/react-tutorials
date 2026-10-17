@@ -1,123 +1,98 @@
+import { useState } from "react";
 import {
   BrowserRouter,
-  Link,
-  NavLink,
-  Outlet,
-  Route,
-  Routes,
-  useParams,
-  useSearchParams,
+  HashRouter,
+  MemoryRouter,
 } from "react-router-dom";
+import { DemoRoutes } from "./DemoRoutes";
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, "") || undefined;
 
-const navClass = ({ isActive }: { isActive: boolean }) =>
-  isActive ? "font-semibold text-teal-800" : "text-slate-600 hover:text-slate-900";
+type RouterKind = "browser" | "hash" | "memory";
 
-const Layout = () => (
-  <div className="mx-auto max-w-3xl px-6 py-10">
-    <header className="border-b border-slate-200 pb-4">
-      <h1 className="text-2xl font-semibold text-slate-900">React Router</h1>
-      <nav className="mt-4 flex flex-wrap gap-4 text-sm">
-        <NavLink to="/" end className={navClass}>
-          Home
-        </NavLink>
-        <NavLink to="/about" className={navClass}>
-          About
-        </NavLink>
-        <NavLink to="/users" className={navClass}>
-          Users
-        </NavLink>
-        <NavLink to="/search?q=react" className={navClass}>
-          Search
-        </NavLink>
-      </nav>
-    </header>
-    <div className="mt-8">
-      <Outlet />
-    </div>
-  </div>
-);
-
-const Home = () => (
-  <section>
-    <h2 className="text-xl font-medium">Home</h2>
-    <p className="mt-2 text-slate-600">
-      This lesson shows nested routes, dynamic params, and search params.
-    </p>
-  </section>
-);
-
-const About = () => (
-  <section>
-    <h2 className="text-xl font-medium">About</h2>
-    <p className="mt-2 text-slate-600">A static route with no params.</p>
-  </section>
-);
-
-const UsersLayout = () => (
-  <section>
-    <h2 className="text-xl font-medium">Users</h2>
-    <ul className="mt-3 list-disc space-y-1 pl-5 text-teal-800">
-      <li>
-        <Link to="1">Ada Lovelace</Link>
-      </li>
-      <li>
-        <Link to="2">Grace Hopper</Link>
-      </li>
-    </ul>
-    <div className="mt-6 rounded border border-slate-200 bg-white p-4">
-      <Outlet />
-    </div>
-  </section>
-);
-
-const UserDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  return (
-    <p>
-      Dynamic segment <code className="rounded bg-slate-100 px-1">:id</code> ={" "}
-      <strong>{id}</strong>
-    </p>
-  );
+const meta: Record<
+  RouterKind,
+  { label: string; title: string; blurb: string }
+> = {
+  browser: {
+    label: "BrowserRouter",
+    title: "Browser history",
+    blurb:
+      "Uses the HTML5 history API. The address bar shows real paths (e.g. /about). Needs server fallbacks for deep links.",
+  },
+  hash: {
+    label: "HashRouter",
+    title: "Hash history",
+    blurb:
+      "Keeps the route after # (e.g. #/about). Works on static hosts without rewrite rules. Watch the URL hash as you navigate.",
+  },
+  memory: {
+    label: "MemoryRouter",
+    title: "In-memory history",
+    blurb:
+      "History lives in memory — the browser URL does not change. Useful for tests, embeds, and non-URL UIs. The box below shows the internal location.",
+  },
 };
 
-const UsersIndex = () => (
-  <p className="text-slate-600">Pick a user to see the nested detail route.</p>
-);
-
-const SearchPage = () => {
-  const [params, setParams] = useSearchParams();
-  const q = params.get("q") ?? "";
+export const App = () => {
+  const [kind, setKind] = useState<RouterKind>("browser");
+  const info = meta[kind];
 
   return (
-    <section>
-      <h2 className="text-xl font-medium">Search</h2>
-      <input
-        className="mt-3 w-full max-w-sm border border-slate-300 px-3 py-2"
-        value={q}
-        onChange={(event) => setParams({ q: event.target.value })}
-        placeholder="Type a query"
-      />
-      <p className="mt-3 text-slate-600">
-        Current <code>?q=</code> value: <strong>{q || "(empty)"}</strong>
+    <main className="mx-auto max-w-3xl px-6 py-10">
+      <h1 className="text-3xl font-semibold text-slate-900">React Router</h1>
+      <p className="mt-2 text-slate-600">
+        Same route tree under three routers. Switch modes and compare how the
+        URL behaves.
       </p>
-    </section>
+
+      <div
+        className="mt-6 flex flex-wrap gap-2"
+        role="tablist"
+        aria-label="Router type"
+      >
+        {(Object.keys(meta) as RouterKind[]).map((key) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            aria-selected={kind === key}
+            className={
+              kind === key
+                ? "bg-slate-900 px-3 py-1.5 text-sm text-white"
+                : "border border-slate-300 px-3 py-1.5 text-sm text-slate-700"
+            }
+            onClick={() => setKind(key)}
+          >
+            {meta[key].label}
+          </button>
+        ))}
+      </div>
+
+      <section className="mt-6 rounded border border-slate-200 bg-slate-50 p-4">
+        <h2 className="font-medium text-slate-900">{info.title}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          {info.blurb}
+        </p>
+      </section>
+
+      <div className="mt-6" key={kind}>
+        {kind === "browser" && (
+          <BrowserRouter basename={basename === "/" ? undefined : basename}>
+            <DemoRoutes />
+          </BrowserRouter>
+        )}
+        {kind === "hash" && (
+          <HashRouter>
+            <DemoRoutes />
+          </HashRouter>
+        )}
+        {kind === "memory" && (
+          <MemoryRouter initialEntries={["/"]}>
+            <DemoRoutes showUrlHint />
+          </MemoryRouter>
+        )}
+      </div>
+    </main>
   );
 };
-
-export const App = () => (
-  <BrowserRouter basename={basename === "/" ? undefined : basename}>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="users" element={<UsersLayout />}>
-          <Route index element={<UsersIndex />} />
-          <Route path=":id" element={<UserDetail />} />
-        </Route>
-        <Route path="search" element={<SearchPage />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
-);
