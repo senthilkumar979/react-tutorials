@@ -34,10 +34,28 @@ pnpm build               # build all + assemble dist/ for Vercel
 
 ## Deploy (single Vercel project)
 
-Connect this repo. Vercel uses `vercel.json`:
+`vercel.json` at the repo root is correct. Vercel’s import UI still **lists every `apps/*` package** because this is a monorepo — that does **not** mean you need one Vercel project per lesson. Import the repo **once** with the **repository root** as the project.
 
-- Install: `pnpm install`
-- Build: `pnpm build`
-- Output: `dist`
+### Dashboard (recommended)
+
+1. [New Project](https://vercel.com/new) → import this Git repo.
+2. If Vercel shows many apps (`catalog`, `router`, `jotai`, …), **do not** import each one.
+3. Create **one** project and set:
+   - **Root Directory**: leave empty / `.` (repo root — **not** `apps/catalog`)
+   - **Framework Preset**: Other
+   - **Install Command**: `pnpm install` (or leave blank; `vercel.json` sets it)
+   - **Build Command**: `pnpm build`
+   - **Output Directory**: `dist`
+4. Deploy. You get one URL; lessons live at `/router/`, `/jotai/`, etc.
+
+### CLI (also one project)
+
+From the repo root:
+
+```bash
+npx vercel@latest
+```
+
+Accept defaults so Root Directory stays the repo root. Do **not** run `vercel` inside `apps/...`.
 
 Do not create a separate Vercel project per lesson.
