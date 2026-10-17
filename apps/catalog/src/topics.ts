@@ -21,14 +21,14 @@ export interface Topic {
 }
 
 export const accentVar: Record<TopicAccent, string> = {
-  teal: "var(--accent-teal)",
-  forest: "var(--accent-forest)",
-  slate: "var(--accent-slate)",
-  amber: "var(--accent-amber)",
-  rose: "var(--accent-rose)",
-  indigo: "var(--accent-indigo)",
-  cyan: "var(--accent-cyan)",
-  olive: "var(--accent-olive)",
+  teal: "var(--tu-accent)",
+  forest: "var(--tu-accent-forest)",
+  slate: "var(--tu-accent-slate)",
+  amber: "var(--tu-accent-amber)",
+  rose: "var(--tu-accent-rose)",
+  indigo: "var(--tu-accent-indigo)",
+  cyan: "var(--tu-accent-cyan)",
+  olive: "var(--tu-accent-olive)",
 };
 
 export const topics: Topic[] = [

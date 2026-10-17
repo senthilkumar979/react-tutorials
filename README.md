@@ -23,6 +23,8 @@ A pnpm + Turborepo of small Vite apps for teaching React concepts. One catalog l
 
 Ports are for local `pnpm dev` only. Production is **one** Vercel project with path prefixes on a single domain.
 
+Shared chrome lives in [`packages/shell`](packages/shell): design tokens (`tokens.css`) and the common **Home / Lessons** nav used by the catalog and every lesson app.
+
 ## Commands
 
 ```bash

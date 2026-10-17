@@ -16,7 +16,8 @@
     "tailwindcss": "^4.1.5",
     "@hookform/resolvers": "^5.0.1",
     "react-hook-form": "^7.56.2",
-    "zod": "^3.24.4"
+    "zod": "^3.24.4",
+    "@tutorials/shell": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.1.2",

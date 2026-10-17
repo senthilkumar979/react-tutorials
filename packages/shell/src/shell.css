@@ -1,0 +1,79 @@
+@import "./tokens.css";
+
+.tu-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--tu-nav-height);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--tu-line);
+  background: color-mix(in srgb, var(--tu-paper-elevated) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: var(--tu-font-body);
+}
+
+.tu-nav__inner {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.tu-nav__brand {
+  font-family: var(--tu-font-display);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--tu-navy);
+  text-decoration: none;
+}
+
+.tu-nav__brand:hover {
+  color: var(--tu-accent);
+}
+
+.tu-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.tu-nav__link {
+  font-size: 0.875rem;
+  font-weight: 550;
+  color: var(--tu-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.tu-nav__link:hover,
+.tu-nav__link[aria-current="page"] {
+  color: var(--tu-navy);
+}
+
+.tu-nav__link--accent {
+  color: var(--tu-accent);
+}
+
+.tu-nav__link--accent:hover {
+  color: var(--tu-accent-hover);
+}
+
+.tu-lesson-frame {
+  min-height: 100vh;
+  background: var(--tu-paper);
+  font-family: var(--tu-font-body);
+  color: var(--tu-ink);
+}
+
+.tu-lesson-frame__body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3.5rem;
+}
