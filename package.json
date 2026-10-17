@@ -1,0 +1,15 @@
+{
+  "name": "mb-react-tutorials",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build && node scripts/assemble-dist.mjs",
+    "lint": "turbo run lint",
+    "preview": "pnpm build && npx serve dist"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/topics/:path*", "destination": "/index.html" },
+    { "source": "/router/:path*", "destination": "/router/index.html" },
+    { "source": "/jotai/:path*", "destination": "/jotai/index.html" },
+    {
+      "source": "/context-reducer/:path*",
+      "destination": "/context-reducer/index.html"
+    },
+    { "source": "/hooks/:path*", "destination": "/hooks/index.html" },
+    { "source": "/hoc/:path*", "destination": "/hoc/index.html" },
+    {
+      "source": "/react-bootstrap/:path*",
+      "destination": "/react-bootstrap/index.html"
+    },
+    { "source": "/radix/:path*", "destination": "/radix/index.html" },
+    { "source": "/axios/:path*", "destination": "/axios/index.html" },
+    {
+      "source": "/tanstack-query/:path*",
+      "destination": "/tanstack-query/index.html"
+    },
+    { "source": "/forms/:path*", "destination": "/forms/index.html" },
+    {
+      "source": "/suspense-lazy/:path*",
+      "destination": "/suspense-lazy/index.html"
+    },
+    { "source": "/portals/:path*", "destination": "/portals/index.html" },
+    {
+      "source": "/error-boundaries/:path*",
+      "destination": "/error-boundaries/index.html"
+    }
+  ]
+}
